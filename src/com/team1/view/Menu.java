@@ -1,13 +1,13 @@
-package visao;
+package com.team1.view;
 
-import controlador.ContatoManager;
+import controladorOld.ContatoManagerOld;
 
 import java.util.Scanner;
 
 public class Menu {
     public void iniciar() {
         Scanner scanner = new Scanner(System.in);
-        ContatoManager contatoManager = new ContatoManager();
+        ContatoManagerOld contatoManager = new ContatoManagerOld();
         boolean sair = false;
 
         while (!sair) {
@@ -41,13 +41,13 @@ public class Menu {
                     break;
 
                 case "2":
-                    System.out.print("\n Digite o telefone do contato: ");
+                    System.out.print("\n Digite o telefone do com.team1.contato: ");
                     String telefoneDetalhar = scanner.nextLine();
                     System.out.println("\n " + contatoManager.detalharContato(telefoneDetalhar) + "\n");
                     break;
 
                 case "3":
-                    System.out.print("\n Digite o telefone do contato a ser editado: ");
+                    System.out.print("\n Digite o telefone do com.team1.contato a ser editado: ");
                     String telefoneAntigo = scanner.nextLine();
                     if (!contatoManager.detalharContato(telefoneAntigo).equals("Contato não encontrado.")){
                         System.out.print("\n Esses são os dados atuais:");
@@ -67,7 +67,7 @@ public class Menu {
                     break;
 
                 case "4":
-                    System.out.print("\n Digite o telefone do contato a ser removido: ");
+                    System.out.print("\n Digite o telefone do com.team1.contato a ser removido: ");
                     String telefoneRemover = scanner.nextLine();
                     System.out.println("\n " + contatoManager.apagarContato(telefoneRemover) + "\n");
                     break;

@@ -1,16 +1,16 @@
-package controlador;
+package controladorOld;
 
-public class ContatoManager {
-    private Contato[] contatos;
+public class ContatoManagerOld {
+    private ContatoOld[] contatoOlds;
     private int tamanho;
     private int id = 1;
 
-    public ContatoManager() {
-        contatos = new Contato[1]; // Inicializa o array com 1 slot
+    public ContatoManagerOld() {
+        contatoOlds = new ContatoOld[1]; // Inicializa o array com 1 slot
         tamanho = 0; // Inicializa com zero contatos
     }
 
-    // Método para adicionar um contato ao array
+    // Método para adicionar um com.team1.contato ao array
     public String adicionarContato(String nome, String email, String telefone) {
         String retorno = "";
         telefone = telefone.replaceAll("\\D", ""); // Remove tudo que não for número
@@ -23,21 +23,21 @@ public class ContatoManager {
             return "Endereço de email inválido.";
         }
 
-        if (tamanho == contatos.length) { // Verifica se o array está cheio
+        if (tamanho == contatoOlds.length) { // Verifica se o array está cheio
             expandirArray(); // Expande o array se estiver cheio
         }
 
-        Contato contato = Contato.criarContato(id, nome, email, telefone);
+        ContatoOld contatoOld = ContatoOld.criarContato(id, nome, email, telefone);
 
-        contatos[tamanho++] = contato; // Adiciona o contato e incrementa o tamanho
+        contatoOlds[tamanho++] = contatoOld; // Adiciona o com.team1.contato e incrementa o tamanho
         id++; // Incrementa o id
 
         for (int indiceContato = 0; indiceContato < tamanho; indiceContato++) {
-            if (contatos[indiceContato].getTelefone().equals(contato.getTelefone()) && contatos[indiceContato].getId() != contato.getId()) { // Verifica se tem um número igual
-                retorno = "Já existe um contato com esse número de telefone, operação abortada.";
-                removerContato(contato.getId() - 1); // Apaga o contato da array
-                id--; // Decrementa o id, pois o contato não pôde ser adicionado
-                contato = null; // Apaga o objeto da memória
+            if (contatoOlds[indiceContato].getTelefone().equals(contatoOld.getTelefone()) && contatoOlds[indiceContato].getId() != contatoOld.getId()) { // Verifica se tem um número igual
+                retorno = "Já existe um com.team1.contato com esse número de telefone, operação abortada.";
+                removerContato(contatoOld.getId() - 1); // Apaga o com.team1.contato da array
+                id--; // Decrementa o id, pois o com.team1.contato não pôde ser adicionado
+                contatoOld = null; // Apaga o objeto da memória
                 break;
             } else {
                 retorno = "Contato adicionado";
@@ -46,12 +46,12 @@ public class ContatoManager {
         return retorno;
     }
 
-    // Método para remover um contato do array
+    // Método para remover um com.team1.contato do array
     private void removerContato(int indice) {
         for (int indiceContato = indice; indiceContato < tamanho - 1; indiceContato++) { // Move os elementos subsequentes uma posição para frente
-            contatos[indiceContato] = contatos[indiceContato + 1];
+            contatoOlds[indiceContato] = contatoOlds[indiceContato + 1];
         }
-        contatos[tamanho - 1] = null; // Limpa a última posição do array
+        contatoOlds[tamanho - 1] = null; // Limpa a última posição do array
         tamanho--; // Decrementa o tamanho
     }
 
@@ -59,11 +59,11 @@ public class ContatoManager {
         boolean encontrado = false;
         String retorno = "";
         for (int indiceContato = 0; indiceContato < tamanho; indiceContato++) {
-            if (contatos[indiceContato].getTelefone().equals(numero)) { // Verifica se tem um contato com o telefone informado
+            if (contatoOlds[indiceContato].getTelefone().equals(numero)) { // Verifica se tem um com.team1.contato com o telefone informado
                 retorno = "Contato com o número " + numero + " apagado.";
-                removerContato(indiceContato); // Remove o contato usando o método removerContato
+                removerContato(indiceContato); // Remove o com.team1.contato usando o método removerContato
                 encontrado = true;
-                break; // Encerra o loop após encontrar e remover o contato
+                break; // Encerra o loop após encontrar e remover o com.team1.contato
             }
         }
         if (!encontrado) {
@@ -72,39 +72,39 @@ public class ContatoManager {
         return retorno;
     }
 
-    // Método para editar um contato existente
+    // Método para editar um com.team1.contato existente
     public String editarContato(String telefone, String novoNome, String novoEmail, String novoTelefone) {
         for (int indiceContato = 0; indiceContato < tamanho; indiceContato++) {
-            if (contatos[indiceContato].getTelefone().equals(telefone)) {
-                // Verifica se o novo número já existe em outro contato
+            if (contatoOlds[indiceContato].getTelefone().equals(telefone)) {
+                // Verifica se o novo número já existe em outro com.team1.contato
                 if (!novoTelefone.isEmpty()) {
                     novoTelefone = novoTelefone.replaceAll("\\D", "");
                     if (novoTelefone.length() < 10 || novoTelefone.length() > 11) {
                         return "Número de telefone inválido.";
                     }
 
-                    // Verifica se o novo número já existe em outro contato
+                    // Verifica se o novo número já existe em outro com.team1.contato
                     for (int i = 0; i < tamanho; i++) {
-                        if (i != indiceContato && contatos[i].getTelefone().equals(novoTelefone)) {
-                            return "O número de telefone " + formatarTelefone(novoTelefone) + " já está cadastrado em outro contato.";
+                        if (i != indiceContato && contatoOlds[i].getTelefone().equals(novoTelefone)) {
+                            return "O número de telefone " + formatarTelefone(novoTelefone) + " já está cadastrado em outro com.team1.contato.";
                         }
                     }
 
                     // Atualiza o telefone se não houver conflito
-                    contatos[indiceContato].setTelefone(novoTelefone);
+                    contatoOlds[indiceContato].setTelefone(novoTelefone);
                 }
 
                 if (!novoEmail.isEmpty()) {
                     if (!novoEmail.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
                         return "Endereço de email inválido.";
                     }
-                    contatos[indiceContato].setEmail(novoEmail);
+                    contatoOlds[indiceContato].setEmail(novoEmail);
                 }
 
                 if (!novoNome.isEmpty()) {
-                    contatos[indiceContato].setNome(novoNome);
+                    contatoOlds[indiceContato].setNome(novoNome);
                 }
-                return "Contato com id " + contatos[indiceContato].getId() + " atualizado.";
+                return "Contato com id " + contatoOlds[indiceContato].getId() + " atualizado.";
             }
         }
         return "Contato não encontrado.";
@@ -112,9 +112,9 @@ public class ContatoManager {
 
     public String detalharContato(String telefone) {
         for (int i = 0; i < tamanho; i++) {
-            if (contatos[i].getTelefone().equals(telefone)) {
+            if (contatoOlds[i].getTelefone().equals(telefone)) {
                 // Formatar o telefone
-                String telefoneFormatado = formatarTelefone(contatos[i].getTelefone());
+                String telefoneFormatado = formatarTelefone(contatoOlds[i].getTelefone());
 
                 // Calcular o comprimento máximo das colunas para formatação
                 int maxIdLength = "Id".length();
@@ -122,10 +122,10 @@ public class ContatoManager {
                 int maxTelefoneLength = "Telefone".length();
                 int maxEmailLength = "Email".length();
 
-                maxIdLength = Math.max(maxIdLength, String.valueOf(contatos[i].getId()).length());
-                maxNomeLength = Math.max(maxNomeLength, contatos[i].getNome().length());
+                maxIdLength = Math.max(maxIdLength, String.valueOf(contatoOlds[i].getId()).length());
+                maxNomeLength = Math.max(maxNomeLength, contatoOlds[i].getNome().length());
                 maxTelefoneLength = Math.max(maxTelefoneLength, telefoneFormatado.length());
-                maxEmailLength = Math.max(maxEmailLength, contatos[i].getEmail().length());
+                maxEmailLength = Math.max(maxEmailLength, contatoOlds[i].getEmail().length());
 
                 // Construir o cabeçalho
                 String header = String.format(
@@ -140,16 +140,16 @@ public class ContatoManager {
                 }
                 linha += "+";
 
-                // Construir o detalhe do contato
+                // Construir o detalhe do com.team1.contato
                 StringBuilder builder = new StringBuilder();
-                builder.append("Detalhes do contato:\n");
+                builder.append("Detalhes do com.team1.contato:\n");
                 builder.append(linha).append("\n");
                 builder.append(header).append("\n");
                 builder.append(linha).append("\n");
 
                 builder.append(String.format(
                         "| %" + maxIdLength + "d | %" + maxNomeLength + "s | %" + maxTelefoneLength + "s | %" + maxEmailLength + "s |",
-                        contatos[i].getId(), contatos[i].getNome(), telefoneFormatado, contatos[i].getEmail()
+                        contatoOlds[i].getId(), contatoOlds[i].getNome(), telefoneFormatado, contatoOlds[i].getEmail()
                 )).append("\n");
 
                 builder.append(linha); // Linha final para fechar a tabela
@@ -175,11 +175,11 @@ public class ContatoManager {
 
         // Percorre todos os contatos para encontrar o comprimento máximo de cada coluna
         for (int i = 0; i < tamanho; i++) {
-            String telefoneFormatado = formatarTelefone(contatos[i].getTelefone()); // Formata o telefone
-            maxIdLength = Math.max(maxIdLength, String.valueOf(contatos[i].getId()).length()); // Atualiza o comprimento máximo do ID
-            maxNomeLength = Math.max(maxNomeLength, contatos[i].getNome().length()); // Atualiza o comprimento máximo do Nome
+            String telefoneFormatado = formatarTelefone(contatoOlds[i].getTelefone()); // Formata o telefone
+            maxIdLength = Math.max(maxIdLength, String.valueOf(contatoOlds[i].getId()).length()); // Atualiza o comprimento máximo do ID
+            maxNomeLength = Math.max(maxNomeLength, contatoOlds[i].getNome().length()); // Atualiza o comprimento máximo do Nome
             maxTelefoneLength = Math.max(maxTelefoneLength, telefoneFormatado.length()); // Atualiza o comprimento máximo do Telefone
-            maxEmailLength = Math.max(maxEmailLength, contatos[i].getEmail().length()); // Atualiza o comprimento máximo do Email
+            maxEmailLength = Math.max(maxEmailLength, contatoOlds[i].getEmail().length()); // Atualiza o comprimento máximo do Email
         }
 
         // Construir o cabeçalho da tabela com a largura ajustada
@@ -201,12 +201,12 @@ public class ContatoManager {
         builder.append(header).append("\n"); // Adiciona o cabeçalho
         builder.append(linha).append("\n"); // Adiciona a linha separadora abaixo do cabeçalho
 
-        // Adiciona os dados de cada contato na tabela
+        // Adiciona os dados de cada com.team1.contato na tabela
         for (int indiceContato = 0; indiceContato < tamanho; indiceContato++) {
-            String telefoneFormatado = formatarTelefone(contatos[indiceContato].getTelefone()); // Formata o telefone
+            String telefoneFormatado = formatarTelefone(contatoOlds[indiceContato].getTelefone()); // Formata o telefone
             builder.append(String.format(
                     "| %" + maxIdLength + "d | %" + maxNomeLength + "s | %" + maxTelefoneLength + "s | %" + maxEmailLength + "s |",
-                    contatos[indiceContato].getId(), contatos[indiceContato].getNome(), telefoneFormatado, contatos[indiceContato].getEmail()
+                    contatoOlds[indiceContato].getId(), contatoOlds[indiceContato].getNome(), telefoneFormatado, contatoOlds[indiceContato].getEmail()
             )).append("\n");
         }
 
@@ -217,15 +217,15 @@ public class ContatoManager {
 
     // Método para expandir o array quando necessário
     private void expandirArray() {
-        int novoTamanho = contatos.length + 1; // Aumenta a capacidade do array
-        Contato[] novaArray = new Contato[novoTamanho]; // Cria um novo array com a nova capacidade
+        int novoTamanho = contatoOlds.length + 1; // Aumenta a capacidade do array
+        ContatoOld[] novaArray = new ContatoOld[novoTamanho]; // Cria um novo array com a nova capacidade
 
         // Copia manualmente os elementos do array antigo para o novo array
         for (int i = 0; i < tamanho; i++) {
-            novaArray[i] = contatos[i];
+            novaArray[i] = contatoOlds[i];
         }
 
-        contatos = novaArray; // Substitui o array antigo pelo novo
+        contatoOlds = novaArray; // Substitui o array antigo pelo novo
     }
 
     // Método para formatar o telefone no formato "## #####-####"

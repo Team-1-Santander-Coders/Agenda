@@ -1,12 +1,12 @@
-package controlador;
+package controladorOld;
 
-public class Contato {
+public class ContatoOld {
     private int id;
     private String nome;
     private String email;
     private String telefone;
 
-    public Contato(int id, String nome, String email, String telefone) {
+    public ContatoOld(int id, String nome, String email, String telefone) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -18,8 +18,8 @@ public class Contato {
         return id + " | " + nome + " | " + telefone + " | " + email;
     }
 
-    public static Contato criarContato(int id, String nome, String email, String telefone) {
-        return new Contato(id, nome, email, telefone);
+    public static ContatoOld criarContato(int id, String nome, String email, String telefone) {
+        return new ContatoOld(id, nome, email, telefone);
     }
 
     public int getId() {
