@@ -1,7 +1,6 @@
 package com.team1.contato.model;
 
 import com.team1.contato.controller.ContatoController;
-import com.team1.sms.controller.Sms;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,6 @@ public class Contato {
     private String nome;
     private String telefone;
     private String email;
-    private final List<Sms> listaDeSms;
     private static final List<Contato> listaContatos = new ArrayList<>();
 
     public Contato(String nome, String telefone, String email) {
@@ -19,27 +17,127 @@ public class Contato {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
-        this.listaDeSms = new ArrayList<>();
         listaContatos.add(this);
     }
 
-    public static List<Contato> getListaContatos() { return listaContatos; }
+    public String getListaContatos() {
+        int tamanho = listaContatos.size();
+        if (listaContatos.isEmpty()) {
+            return "Sem contatos na lista.";
+        }
 
-    public  List<Sms> getListaDeSms() {
-        return listaDeSms;
+        int maxIdLength = "Id".length();
+        int maxNomeLength = "Nome".length();
+        int maxTelefoneLength = "Telefone".length();
+        int maxEmailLength = "Email".length();
+
+        for (int indiceContato = 0; indiceContato < tamanho; indiceContato++) {
+            String telefoneFormatado = formatarTelefone(listaContatos.get(indiceContato).getTelefone());
+            maxIdLength = Math.max(maxIdLength, String.valueOf(listaContatos.get(indiceContato).getId()).length());
+            maxNomeLength = Math.max(maxNomeLength, listaContatos.get(indiceContato).getNome().length());
+            maxTelefoneLength = Math.max(maxTelefoneLength, telefoneFormatado.length());
+            maxEmailLength = Math.max(maxEmailLength, listaContatos.get(indiceContato).getEmail().length());
+        }
+
+        String header = String.format(
+                "| %" + maxIdLength + "s | %" + maxNomeLength + "s | %" + maxTelefoneLength + "s | %" + maxEmailLength + "s |",
+                "Id", "Nome", "Telefone", "Email"
+        );
+
+        String linha = "+";
+        for (int i = 0; i < header.length() - 2; i++) {
+            linha += "-";
+        }
+        linha += "+";
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(linha).append("\n");
+        builder.append(header).append("\n");
+        builder.append(linha).append("\n");
+
+        for (int indiceContato = 0; indiceContato < tamanho; indiceContato++) {
+            String telefoneFormatado = formatarTelefone(listaContatos.get(indiceContato).getTelefone());
+            builder.append(String.format(
+                    "| %" + maxIdLength + "d | %" + maxNomeLength + "s | %" + maxTelefoneLength + "s | %" + maxEmailLength + "s |",
+                    listaContatos.get(indiceContato).getId(), listaContatos.get(indiceContato).getNome(), telefoneFormatado, listaContatos.get(indiceContato).getEmail()
+            )).append("\n");
+        }
+
+        builder.append(linha);
+
+        return builder.toString();
     }
 
-    public void adicionarSmsNaLista(Sms sms){
-        listaDeSms.add(sms);
+    public String detalharContato(String telefone) {
+        for (int indiceContato = 0; indiceContato < listaContatos.size(); indiceContato++) {
+            if (listaContatos.get(indiceContato).getTelefone().equals(telefone)) {
+                String telefoneFormatado = formatarTelefone(listaContatos.get(indiceContato).getTelefone());
+
+                int maxIdLength = "Id".length();
+                int maxNomeLength = "Nome".length();
+                int maxTelefoneLength = "Telefone".length();
+                int maxEmailLength = "Email".length();
+
+                maxIdLength = Math.max(maxIdLength, String.valueOf(listaContatos.get(indiceContato).getId()).length());
+                maxNomeLength = Math.max(maxNomeLength, listaContatos.get(indiceContato).getNome().length());
+                maxTelefoneLength = Math.max(maxTelefoneLength, telefoneFormatado.length());
+                maxEmailLength = Math.max(maxEmailLength, listaContatos.get(indiceContato).getEmail().length());
+
+                String header = String.format(
+                        "| %" + maxIdLength + "s | %" + maxNomeLength + "s | %" + maxTelefoneLength + "s | %" + maxEmailLength + "s |",
+                        "Id", "Nome", "Telefone", "Email"
+                );
+
+                String linha = "+";
+                for (int j = 0; j < header.length() - 2; j++) {
+                    linha += "-";
+                }
+                linha += "+";
+
+                StringBuilder builder = new StringBuilder();
+                builder.append("Detalhes do contato:\n");
+                builder.append(linha).append("\n");
+                builder.append(header).append("\n");
+                builder.append(linha).append("\n");
+
+                builder.append(String.format(
+                        "| %" + maxIdLength + "d | %" + maxNomeLength + "s | %" + maxTelefoneLength + "s | %" + maxEmailLength + "s |",
+                        listaContatos.get(indiceContato).getId(), listaContatos.get(indiceContato).getNome(), telefoneFormatado, listaContatos.get(indiceContato).getEmail()
+                )).append("\n");
+
+                builder.append(linha);
+
+                return builder.toString();
+            }
+        }
+        return "Contato não encontrado.";
     }
 
-    public int getId(){ return id; }
+    private String formatarTelefone(String telefone) {
+        if (telefone.length() == 10) {
+            return telefone.replaceFirst("(\\d{2})(\\d{4})(\\d+)", "$1 $2-$3");
+        } else if (telefone.length() == 11) {
+            return telefone.replaceFirst("(\\d{2})(\\d{5})(\\d+)", "$1 $2-$3");
+        }
+        return telefone;
+    }
 
-    public String getNome() { return nome;}
+    public static Contato getContatoPeloEmail(String email) {
+        for (Contato contato:listaContatos) {
+            if (email.equals(contato.email)) {
+                return contato;
+            }
+        }
+        return null;
+    }
 
-    public String getTelefone() { return telefone;}
+    public int getId() { return id; }
 
-    public String getEmail() { return email;}
+    public String getNome() { return nome; }
+
+    public String getTelefone() { return telefone; }
+
+    public String getEmail() { return email; }
 
     public void setNome(String nome) {
         this.nome = nome;
@@ -52,6 +150,4 @@ public class Contato {
     public void setEmail(String email) {
         this.email = email;
     }
-
-
 }

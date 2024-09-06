@@ -1,7 +1,7 @@
 package com.team1.contato.controller;
+
 import com.team1.contato.util.Utils;
 import com.team1.contato.model.Contato;
-
 
 public class ContatoController {
     private static int id = 1;
@@ -12,28 +12,22 @@ public class ContatoController {
         try {
             if (nome.isEmpty() || telefone.isEmpty() || email.isEmpty()) {
                 throw new Exception("Contato não adicionado: Dados não foram informados");
-
             } else if (!Utils.verificarTelefoneValido(telefone)) {
-                throw new Exception("Contato não adicionado: Telefone invalido");
-
+                throw new Exception("Contato não adicionado: Telefone inválido");
             } else if (!Utils.verificarEmailValido(email)) {
-                throw new Exception("Contato não adicionado: Email invalido");
-
+                throw new Exception("Contato não adicionado: Email inválido");
             } else {
                 Contato contato = new Contato(nome, telefone, email);
                 id++;
-
                 return contato;
             }
-
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return null;
         }
-
-
     }
-    public static int getId(){
+
+    public static int getId() {
         return id;
     }
 }

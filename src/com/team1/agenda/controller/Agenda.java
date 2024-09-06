@@ -20,13 +20,14 @@ public class Agenda {
                 this.listaDeContato.add(contato);
                 System.out.println("Contato adicionado com sucesso!");
             }
-
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
 
-    public void removerDaAgenda(String telefone) { listaDeContato.removeIf(contato -> contato.getTelefone().equals(telefone)); }
+    public void removerDaAgenda(String telefone) {
+        listaDeContato.removeIf(contato -> contato.getTelefone().equals(telefone));
+    }
 
     public void editarContato(String telefone, String novoNome, String novoTelefone, String novoEmail) {
         telefone = telefone.replaceAll("\\D", "");
@@ -57,43 +58,36 @@ public class Agenda {
         try {
             if (listaDeContato.isEmpty()) throw new Exception("Sem contatos na lista.");
             else {
-                // Encontrar o comprimento máximo de cada coluna
-                int maxIdLength = "Id".length(); // Inicializa com o comprimento do título "Id"
-                int maxNomeLength = "Nome".length(); // Inicializa com o comprimento do título "Nome"
-                int maxTelefoneLength = "Telefone".length(); // Inicializa com o comprimento do título "Telefone"
-                int maxEmailLength = "Email".length(); // Inicializa com o comprimento do título "Email"
+                int maxIdLength = "Id".length();
+                int maxNomeLength = "Nome".length();
+                int maxTelefoneLength = "Telefone".length();
+                int maxEmailLength = "Email".length();
 
-                // Percorre todos os contatos para encontrar o comprimento máximo de cada coluna
                 for (Contato contato : listaDeContato) {
-                    String telefoneFormatado = formatarTelefone(contato.getTelefone()); // Formata o telefone
-                    maxIdLength = Math.max(maxIdLength, String.valueOf(contato.getId()).length()); // Atualiza o comprimento máximo do ID
-                    maxNomeLength = Math.max(maxNomeLength, contato.getNome().length()); // Atualiza o comprimento máximo do Nome
-                    maxTelefoneLength = Math.max(maxTelefoneLength, telefoneFormatado.length()); // Atualiza o comprimento máximo do Telefone
-                    maxEmailLength = Math.max(maxEmailLength, contato.getEmail().length()); // Atualiza o comprimento máximo do Email
+                    String telefoneFormatado = formatarTelefone(contato.getTelefone());
+                    maxIdLength = Math.max(maxIdLength, String.valueOf(contato.getId()).length());
+                    maxNomeLength = Math.max(maxNomeLength, contato.getNome().length());
+                    maxTelefoneLength = Math.max(maxTelefoneLength, telefoneFormatado.length());
+                    maxEmailLength = Math.max(maxEmailLength, contato.getEmail().length());
                 }
 
-                // Construir o cabeçalho da tabela com a largura ajustada
                 String header = String.format(
                         "| %" + maxIdLength + "s | %" + maxNomeLength + "s | %" + maxTelefoneLength + "s | %" + maxEmailLength + "s |",
                         "Id", "Nome", "Telefone", "Email"
                 );
 
-                // Construir uma linha de separação com base no comprimento do cabeçalho
                 String linha = "+";
-                for (int i = 0; i < header.length() - 2; i++) { // -2 para ajustar ao comprimento dos símbolos '+' nas extremidades
+                for (int i = 0; i < header.length() - 2; i++) {
                     linha += "-";
                 }
                 linha += "+";
 
-                // Construir as linhas da tabela
+                builder.append(linha).append("\n");
+                builder.append(header).append("\n");
+                builder.append(linha).append("\n");
 
-                builder.append(linha).append("\n"); // Adiciona a linha superior da tabela
-                builder.append(header).append("\n"); // Adiciona o cabeçalho
-                builder.append(linha).append("\n"); // Adiciona a linha separadora abaixo do cabeçalho
-
-                // Adiciona os dados de cada com.team1.contato na tabela
                 for (Contato contato : listaDeContato) {
-                    String telefoneFormatado = formatarTelefone(contato.getTelefone()); // Formata o telefone
+                    String telefoneFormatado = formatarTelefone(contato.getTelefone());
                     builder.append(String.format(
                             "| %" + maxIdLength + "d | %" + maxNomeLength + "s | %" + maxTelefoneLength + "s | %" + maxEmailLength + "s |",
                             contato.getId(), contato.getNome(), telefoneFormatado, contato.getEmail()
@@ -123,9 +117,8 @@ public class Agenda {
     }
 
     public String detalharContato(int id) {
-
         try {
-            if (listaDeContato.get(id) == null) throw new Exception("Contato não encontrado");
+            if (id < 0 || id >= listaDeContato.size()) throw new Exception("Contato não encontrado");
 
             else {
                 Contato contato = listaDeContato.get(id);
@@ -140,20 +133,16 @@ public class Agenda {
                 maxTelefoneLength = Math.max(maxTelefoneLength, telefoneFormatado.length());
                 maxEmailLength = Math.max(maxEmailLength, contato.getEmail().length());
 
-                // Construir o cabeçalho
                 String header = String.format(
                         "| %" + maxIdLength + "s | %" + maxNomeLength + "s | %" + maxTelefoneLength + "s | %" + maxEmailLength + "s |",
                         "Id", "Nome", "Telefone", "Email"
                 );
 
-                // Construir a linha de separação
                 String linha = "+";
                 for (int j = 0; j < header.length() - 2; j++) {
                     linha += "-";
                 }
                 linha += "+";
-
-                // Construir o detalhe do com.team1.contato
 
                 return "Detalhes do contato:\n" +
                         linha + "\n" +
@@ -192,5 +181,3 @@ public class Agenda {
         return telefone;
     }
 }
-
-
