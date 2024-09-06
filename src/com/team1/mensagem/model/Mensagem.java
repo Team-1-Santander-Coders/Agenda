@@ -11,14 +11,6 @@ public class Mensagem {
         this.conteudo = conteudo;
     }
 
-    public Usuario getRemetente() {
-        return remetente;
-    }
-
-    public Usuario getDestinatario() {
-        return destinatario;
-    }
-
     @Override
     public String toString() {
         return "De: " + remetente.getNome() + " (" + remetente.getEmail() + ")\n" +

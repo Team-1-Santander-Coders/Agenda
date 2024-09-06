@@ -23,7 +23,7 @@ public class Menu {
         while (!sair) {
             exibirMenuPrincipal();
             int opcao = scanner.nextInt();
-            scanner.nextLine(); // Limpa o buffer do scanner
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1:
@@ -96,11 +96,11 @@ public class Menu {
         System.out.println(" \\---------------------------/ ");
         System.out.println(" |   >>> Menu Principal <<<   |");
         System.out.println(" |---------------------------| ");
-        System.out.println(" | 1 - Adicionar Contato     | ");
-        System.out.println(" | 2 - Detalhar Contato      | ");
-        System.out.println(" | 3 - Editar Contato        | ");
-        System.out.println(" | 4 - Remover Contato       | ");
-        System.out.println(" | 5 - Listar Contatos       | ");
+        System.out.println(" | 1 - Adicionar contato     | ");
+        System.out.println(" | 2 - Detalhar contato      | ");
+        System.out.println(" | 3 - Editar contato        | ");
+        System.out.println(" | 4 - Remover contato       | ");
+        System.out.println(" | 5 - Listar contatos       | ");
         System.out.println(" | 6 - Acessar Email         | ");
         System.out.println(" | 7 - Cadastrar Usuário     | ");
         if (usuarioLogado == null && administradorLogado == null) {

@@ -9,10 +9,6 @@ import java.util.List;
 public class Agenda {
     private final List<Contato> listaDeContato = new ArrayList<>();
 
-    public List<Contato> getListaDeContatos() {
-        return listaDeContato;
-    }
-
     public void adicionarNaAgenda(Contato contato) {
         try {
             if (contato == null) throw new Exception("Impossível adicionar um contato vazio");
@@ -100,10 +96,6 @@ public class Agenda {
         }
 
         return builder.toString();
-    }
-
-    public Contato getContato(int id) {
-        return listaDeContato.get(id);
     }
 
     public int getIdContato(String telefone) {
