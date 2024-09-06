@@ -1,5 +1,8 @@
 package com.team1.view;
 
+import com.team1.agenda.controller.Agenda;
+import com.team1.contato.controller.ContatoController;
+import com.team1.contato.model.Contato;
 import controladorOld.ContatoManagerOld;
 
 import java.util.Scanner;
@@ -8,6 +11,7 @@ public class Menu {
     public void iniciar() {
         Scanner scanner = new Scanner(System.in);
         ContatoManagerOld contatoManager = new ContatoManagerOld();
+        Agenda agenda = new Agenda();
         boolean sair = false;
 
         while (!sair) {
@@ -37,28 +41,36 @@ public class Menu {
                     String email = scanner.nextLine();
                     System.out.print(" Telefone: ");
                     String telefone = scanner.nextLine();
-                    System.out.println("\n " + contatoManager.adicionarContato(nome, email, telefone) + "\n");
+                    try {
+                        if(agenda.verificarTelefoneJaInserido(telefone)) throw new Exception("Telefone já inserido.");
+                        else agenda.adicionarNaAgenda(ContatoController.novoContato(nome, telefone, email));
+                    }
+                    catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+
                     break;
 
                 case "2":
                     System.out.print("\n Digite o telefone do com.team1.contato: ");
                     String telefoneDetalhar = scanner.nextLine();
-                    System.out.println("\n " + contatoManager.detalharContato(telefoneDetalhar) + "\n");
+                    System.out.println("\n " + agenda.detalharContato(agenda.getIdContato(telefoneDetalhar)) + "\n");
                     break;
 
                 case "3":
                     System.out.print("\n Digite o telefone do com.team1.contato a ser editado: ");
                     String telefoneAntigo = scanner.nextLine();
-                    if (!contatoManager.detalharContato(telefoneAntigo).equals("Contato não encontrado.")){
+
+                    if (!(agenda.detalharContato(agenda.getIdContato(telefoneAntigo)) == null)){
                         System.out.print("\n Esses são os dados atuais:");
-                        System.out.println(contatoManager.detalharContato(telefoneAntigo));
+                        System.out.println(agenda.detalharContato(agenda.getIdContato(telefoneAntigo)));
                         System.out.print(" Novo Nome (deixe em branco para manter o mesmo): ");
                         String novoNome = scanner.nextLine();
                         System.out.print(" Novo Email (deixe em branco para manter o mesmo): ");
                         String novoEmail = scanner.nextLine();
                         System.out.print(" Novo Telefone (deixe em branco para manter o mesmo): ");
                         String novoTelefone = scanner.nextLine();
-                        System.out.println("\n " + contatoManager.editarContato(telefoneAntigo, novoNome, novoEmail, novoTelefone) + "\n");
+                        agenda.editarContato(telefoneAntigo, novoNome, novoTelefone, novoEmail);
                     }
                     else {
                         System.out.println("\n Contato não encontrado. \n");
@@ -69,11 +81,11 @@ public class Menu {
                 case "4":
                     System.out.print("\n Digite o telefone do com.team1.contato a ser removido: ");
                     String telefoneRemover = scanner.nextLine();
-                    System.out.println("\n " + contatoManager.apagarContato(telefoneRemover) + "\n");
+                    agenda.removerDaAgenda(telefoneRemover);
                     break;
 
                 case "5":
-                    System.out.println("\n " + contatoManager.listarContatos() + "\n");  // Lista os contatos
+                    System.out.println("\n " + agenda.listarContatos() + "\n");  // Lista os contatos
                     break;
 
                 case "6":

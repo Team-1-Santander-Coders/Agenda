@@ -1,5 +1,6 @@
 package com.team1.contato.model;
 
+import com.team1.contato.controller.ContatoController;
 import com.team1.sms.controller.Sms;
 
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ public class Contato {
     private final List<Sms> listaDeSms;
     private static final List<Contato> listaContatos = new ArrayList<>();
 
-    public Contato(int id, String nome, String telefone, String email) {
-        this.id = id;
+    public Contato(String nome, String telefone, String email) {
+        this.id = ContatoController.getId();
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;

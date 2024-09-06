@@ -1,6 +1,4 @@
 package com.team1.contato.controller;
-
-import com.team1.agenda.controller.Agenda;
 import com.team1.contato.util.Utils;
 import com.team1.contato.model.Contato;
 
@@ -22,13 +20,20 @@ public class ContatoController {
                 throw new Exception("Contato não adicionado: Email invalido");
 
             } else {
+                Contato contato = new Contato(nome, telefone, email);
                 id++;
-                return new Contato(id, nome, telefone, email);
+
+                return contato;
             }
 
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return null;
         }
+
+
+    }
+    public static int getId(){
+        return id;
     }
 }
