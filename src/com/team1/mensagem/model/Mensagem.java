@@ -1,9 +1,9 @@
 package com.team1.mensagem.model;
 
 public class Mensagem {
-    private Usuario remetente;
-    private Usuario destinatario;
-    private String conteudo;
+    private final Usuario remetente;
+    private final Usuario destinatario;
+    private final String conteudo;
 
     public Mensagem(Usuario remetente, Usuario destinatario, String conteudo) {
         this.remetente = remetente;

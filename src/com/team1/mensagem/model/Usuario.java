@@ -2,14 +2,15 @@ package com.team1.mensagem.model;
 
 import com.team1.contato.model.Contato;
 import com.team1.mensagem.model.Mensagem;
+import com.team1.resources.Cores;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario extends Contato {
-    private String senha;
-    private List<Mensagem> mensagensEnviadas;
-    private List<Mensagem> mensagensRecebidas;
+    private final String senha;
+    private final List<Mensagem> mensagensEnviadas;
+    private final List<Mensagem> mensagensRecebidas;
 
     public Usuario(String nome, String telefone, String email, String senha) {
         super(nome, telefone, email);
@@ -33,14 +34,24 @@ public class Usuario extends Contato {
     }
 
     public void verEmails() {
-        System.out.println("Mensagens Enviadas:");
-        for (Mensagem mensagem : mensagensEnviadas) {
-            System.out.println(mensagem);
+        if (!mensagensEnviadas.isEmpty()){
+            System.out.println("\nMensagens Enviadas:");
+            for (Mensagem mensagem : mensagensEnviadas) {
+                System.out.println(mensagem);
+                System.out.println("------------------------------------");
+            }
+        } else {
+            System.out.println(Cores.CYAN.colorir("\n Usuário não possui mensagens enviadas.\n"));
         }
 
-        System.out.println("Mensagens Recebidas:");
-        for (Mensagem mensagem : mensagensRecebidas) {
-            System.out.println(mensagem);
+        if (!mensagensRecebidas.isEmpty()){
+            System.out.println("\nMensagens Recebidas:");
+            for (Mensagem mensagem : mensagensRecebidas) {
+                System.out.println(mensagem);
+                System.out.println("------------------------------------");
+            }
+        } else {
+            System.out.println(Cores.CYAN.colorir("\n Usuário não possui mensagens recebidas.\n"));
         }
     }
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioController {
-    private static List<Usuario> usuarios = new ArrayList<>();
+    private static final List<Usuario> usuarios = new ArrayList<>();
 
     public static void cadastrarUsuario(String nome, String telefone, String email, String senha) {
         Usuario usuario = new Usuario(nome, telefone, email, senha);

@@ -8,8 +8,8 @@ import com.team1.mensagem.model.Administrador;
 import com.team1.mensagem.model.Usuario;
 import com.team1.agenda.controller.Agenda;
 import com.team1.mensagem.utils.Utils;
-
 import java.util.Scanner;
+import com.team1.resources.Cores;
 
 public class Menu {
     private static Usuario usuarioLogado = null;
@@ -22,60 +22,59 @@ public class Menu {
 
         while (!sair) {
             exibirMenuPrincipal();
-            int opcao = scanner.nextInt();
-            scanner.nextLine();
+            String opcao = scanner.nextLine();
 
             switch (opcao) {
-                case 1:
+                case "1":
                     adicionarContato();
                     break;
-                case 2:
+                case "2":
                     detalharContato();
                     break;
-                case 3:
+                case "3":
                     editarContato();
                     break;
-                case 4:
+                case "4":
                     removerContato();
                     break;
-                case 5:
+                case "5":
                     listarContatos();
                     break;
-                case 6:
+                case "6":
                     acessarEmail();
                     break;
-                case 7:
+                case "7":
                     cadastrarUsuario();
                     break;
-                case 8:
+                case "8":
                     if (usuarioLogado == null && administradorLogado == null) {
                         sair = true;
                     } else {
                         enviarEmail();
                     }
                     break;
-                case 9:
+                case "9":
                     if (usuarioLogado != null || administradorLogado != null) {
                         verMeusEmails();
                     } else {
                         System.out.println("Opção inválida. Faça login para acessar esta funcionalidade.");
                     }
                     break;
-                case 10:
+                case "10":
                     if (administradorLogado != null) {
                         verEmailsDeOutroUsuario();
                     } else {
                         System.out.println("Opção inválida. Somente administradores podem acessar esta funcionalidade.");
                     }
                     break;
-                case 11:
+                case "11":
                     if (usuarioLogado != null || administradorLogado != null) {
                         logout();
                     } else {
                         System.out.println("Opção inválida. Faça login para acessar esta funcionalidade.");
                     }
                     break;
-                case 12:
+                case "12":
                     if (usuarioLogado != null || administradorLogado != null) {
                         sair = true;
                     } else {
@@ -91,46 +90,45 @@ public class Menu {
     }
 
     private void exibirMenuPrincipal() {
-        System.out.println(" /---------------------------\\ ");
-        System.out.println(" |           AGENDA           |");
-        System.out.println(" \\---------------------------/ ");
-        System.out.println(" |   >>> Menu Principal <<<   |");
-        System.out.println(" |---------------------------| ");
-        System.out.println(" | 1 - Adicionar contato     | ");
-        System.out.println(" | 2 - Detalhar contato      | ");
-        System.out.println(" | 3 - Editar contato        | ");
-        System.out.println(" | 4 - Remover contato       | ");
-        System.out.println(" | 5 - Listar contatos       | ");
-        System.out.println(" | 6 - Acessar Email         | ");
-        System.out.println(" | 7 - Cadastrar Usuário     | ");
+        System.out.println("\n /----------------------------------\\ ");
+        System.out.println(" |              AGENDA              |");
+        System.out.println(" \\----------------------------------/ ");
+        System.out.println(" |      >>> Menu Principal <<<      |");
+        System.out.println(" |----------------------------------| ");
+        System.out.println(" | 1 - Adicionar contato            | ");
+        System.out.println(" | 2 - Detalhar contato             | ");
+        System.out.println(" | 3 - Editar contato               | ");
+        System.out.println(" | 4 - Remover contato              | ");
+        System.out.println(" | 5 - Listar contatos              | ");
+        System.out.println(" | 6 - Acessar Email                | ");
+        System.out.println(" | 7 - Cadastrar Usuário            | ");
         if (usuarioLogado == null && administradorLogado == null) {
-            System.out.println(" | 8 - Sair                  | ");
+            System.out.println(" | 8 - Sair                         | ");
         } else {
-            System.out.println(" | 8 - Enviar email          | ");
-            System.out.println(" | 9 - Ver meus emails       | ");
+            System.out.println(" | 8 - Enviar email                 | ");
+            System.out.println(" | 9 - Ver meus emails              | ");
             if (administradorLogado != null) {
                 System.out.println(" | 10 - Ver emails de outro usuário | ");
             }
-            System.out.println(" | 11 - Trocar de conta      | ");
-            System.out.println(" | 12 - Sair                 | ");
+            System.out.println(" | 11 - Trocar de conta             | ");
+            System.out.println(" | 12 - Sair                        | ");
         }
-        System.out.println(" |---------------------------| ");
-        System.out.print(" Escolha uma opção: ");
+        System.out.println(" |----------------------------------| ");
+        System.out.print("\n Escolha uma opção: ");
     }
 
 
     private void cadastrarUsuario() {
-        System.out.println("\n  Cadastro de novo usuário");
-        System.out.print("Digite o email: ");
+        System.out.print("\n Digite o email: ");
         String email = scanner.nextLine();
-        System.out.print("Digite a senha: ");
+        System.out.print(" Digite a senha: ");
         String senha = scanner.nextLine();
 
         Contato contato = Contato.getContatoPeloEmail(email);
 
 
         if (contato == null) {
-            System.out.println("\nEmail não está cadastrado na agenda.");
+            System.out.println(Cores.RED.colorir("\n Email não está cadastrado na agenda."));
             return;
         }
 
@@ -138,31 +136,31 @@ public class Menu {
         String telefone = contato.getTelefone();
 
 
-
-
         if (!Utils.verificarSenhaValida(senha)) {
-            System.out.println("\nSenha inválida. A senha deve ter pelo menos 8 caracteres. O cadastro não foi realizado.");
+            System.out.println(Cores.RED.colorir("\n Senha inválida. A senha deve ter pelo menos 8 caracteres. O cadastro não foi realizado."));
             return;
         }
 
-        System.out.print("\nEste usuário será um administrador? (S/N): ");
+        System.out.print(Cores.CYAN.colorir("\n Este usuário será um administrador? (Sim (S) / Não (N)): "));
         String resposta = scanner.nextLine().toUpperCase();
 
-        if (resposta.equals("S")) {
+        if (resposta.equals("S") || resposta.equals("SIM")) {
             AdministradorController.cadastrarAdministrador(nome, telefone, email, senha);
-            System.out.println("\nAdministrador cadastrado com sucesso!");
-        } else {
+            System.out.println(Cores.GREEN.colorir("\n Administrador cadastrado com sucesso!"));
+        } else if (resposta.equals("N") || resposta.equals("NAO") || resposta.equals("NÃO")){
             UsuarioController.cadastrarUsuario(nome, telefone, email, senha);
-            System.out.println("\nUsuário cadastrado com sucesso!");
+            System.out.println(Cores.GREEN.colorir("\n Usuário cadastrado com sucesso!"));
+        } else {
+            System.out.println(Cores.RED.colorir("\n Escolha uma opção válida."));
         }
     }
 
     private void adicionarContato() {
-        System.out.print("Digite o nome do contato: ");
+        System.out.print("\n Digite o nome do contato: ");
         String nome = scanner.nextLine();
-        System.out.print("Digite o telefone do contato: ");
+        System.out.print(" Digite o telefone do contato: ");
         String telefone = scanner.nextLine();
-        System.out.print("Digite o email do contato: ");
+        System.out.print(" Digite o email do contato: ");
         String email = scanner.nextLine();
 
         Contato contato = ContatoController.novoContato(nome, telefone, email);
@@ -172,76 +170,73 @@ public class Menu {
     }
 
     private void detalharContato() {
-        System.out.print("Digite o telefone do contato: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-        String detalhes = agenda.detalharContato(id - 1);
-        System.out.println(detalhes);
+        System.out.print("\n Digite o telefone do contato: ");
+        String telefone = scanner.nextLine();
+        System.out.println(agenda.detalharContato(telefone));
     }
 
     private void editarContato() {
-        System.out.print("Digite o telefone do contato que deseja editar: ");
+        System.out.print("\n Digite o telefone do contato que deseja editar: ");
         String telefone = scanner.nextLine();
-        System.out.print("Digite o novo nome (ou Enter para manter): ");
+        System.out.print(" Digite o novo nome (ou Enter para manter): ");
         String novoNome = scanner.nextLine();
-        System.out.print("Digite o novo telefone (ou Enter para manter): ");
+        System.out.print(" Digite o novo telefone (ou Enter para manter): ");
         String novoTelefone = scanner.nextLine();
-        System.out.print("Digite o novo email (ou Enter para manter): ");
+        System.out.print(" Digite o novo email (ou Enter para manter): ");
         String novoEmail = scanner.nextLine();
 
         agenda.editarContato(telefone, novoNome, novoTelefone, novoEmail);
     }
 
     private void removerContato() {
-        System.out.print("Digite o telefone do contato que deseja remover: ");
+        System.out.print("\n Digite o telefone do contato que deseja remover: ");
         String telefone = scanner.nextLine();
         agenda.removerDaAgenda(telefone);
-        System.out.println("Contato removido com sucesso!");
+        System.out.println(Cores.YELLOW.colorir("\n Contato removido com sucesso!"));
     }
 
     private void listarContatos() {
-        String listaContatos = agenda.listarContatos();
-        System.out.println(listaContatos);
+        System.out.println(agenda.listarContatos());
     }
 
     private void acessarEmail() {
-        System.out.print("Digite o seu email: ");
+        System.out.print("\n Digite o seu email: ");
         String email = scanner.nextLine();
-        System.out.print("Digite a sua senha: ");
+        System.out.print(" Digite a sua senha: ");
         String senha = scanner.nextLine();
 
         usuarioLogado = UsuarioController.fazerLogin(email, senha);
         administradorLogado = AdministradorController.fazerLogin(email, senha);
 
         if (usuarioLogado != null) {
-            System.out.println("Login realizado com sucesso como usuário!");
+            System.out.println(Cores.GREEN.colorir("\n Login realizado com sucesso como usuário!"));
         } else if (administradorLogado != null) {
-            System.out.println("Login realizado com sucesso como administrador!");
+            System.out.println(Cores.GREEN.colorir("\n Login realizado com sucesso como administrador!"));
         } else {
-            System.out.println("Email ou senha incorretos. Tente novamente.");
+            System.out.println(Cores.RED.colorir("\n Email ou senha incorretos. Tente novamente."));
         }
     }
 
     private void enviarEmail() {
         if (usuarioLogado != null || administradorLogado != null) {
-            System.out.print("Digite o email do destinatário: ");
+            System.out.print("\n Digite o email do destinatário: ");
             String emailDestinatario = scanner.nextLine();
             Usuario destinatario = UsuarioController.buscarUsuarioPorEmail(emailDestinatario);
 
             if (destinatario != null) {
-                System.out.print("Digite a mensagem: ");
+                System.out.print("\n Digite a mensagem: ");
                 String conteudo = scanner.nextLine();
                 if (usuarioLogado != null) {
                     usuarioLogado.enviarMensagem(destinatario, conteudo);
                 } else if (administradorLogado != null) {
                     administradorLogado.enviarMensagem(destinatario, conteudo);
                 }
-                System.out.println("Mensagem enviada com sucesso!");
+                System.out.println(Cores.GREEN.colorir("\n Mensagem enviada com sucesso!"));
             } else {
-                System.out.println("Destinatário não encontrado.");
+                System.out.println(Cores.RED.colorir("\n Destinatário não encontrado."));
             }
         } else {
-            System.out.println("Você deve estar logado para enviar emails.");
+            System.out.println(Cores.RED.colorir("\n Você deve estar logado para enviar emails."));
         }
     }
 
@@ -255,23 +250,23 @@ public class Menu {
 
     private void verEmailsDeOutroUsuario() {
         if (administradorLogado != null) {
-            System.out.print("Digite o email do usuário: ");
+            System.out.print("\n Digite o email do usuário: ");
             String emailUsuario = scanner.nextLine();
             Usuario usuario = UsuarioController.buscarUsuarioPorEmail(emailUsuario);
 
             if (usuario != null) {
                 administradorLogado.verEmailsDeOutroUsuario(usuario);
             } else {
-                System.out.println("Usuário não encontrado.");
+                System.out.println(Cores.RED.colorir("\n Usuário não encontrado."));
             }
         } else {
-            System.out.println("Você deve estar logado como administrador para ver emails de outros usuários.");
+            System.out.println(Cores.RED.colorir("\n Você deve estar logado como administrador para ver emails de outros usuários."));
         }
     }
 
     private void logout() {
         usuarioLogado = null;
         administradorLogado = null;
-        System.out.println("Logout realizado com sucesso.");
+        System.out.println(Cores.CYAN.colorir("\n Logout realizado com sucesso."));
     }
 }

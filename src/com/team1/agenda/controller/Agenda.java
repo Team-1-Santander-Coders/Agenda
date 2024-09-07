@@ -2,19 +2,22 @@ package com.team1.agenda.controller;
 
 import com.team1.contato.model.Contato;
 import com.team1.contato.util.Utils;
+import com.team1.resources.Cores;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.team1.contato.util.Utils.verificarTelefoneValido;
 
 public class Agenda {
     private final List<Contato> listaDeContato = new ArrayList<>();
 
     public void adicionarNaAgenda(Contato contato) {
         try {
-            if (contato == null) throw new Exception("Impossível adicionar um contato vazio");
+            if (contato == null) System.out.println(Cores.RED.colorir("\n Impossível adicionar um contato vazio"));
             else {
                 this.listaDeContato.add(contato);
-                System.out.println("Contato adicionado com sucesso!");
+                System.out.println(Cores.GREEN.colorir("\n Contato adicionado com sucesso!"));
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -29,10 +32,10 @@ public class Agenda {
         telefone = telefone.replaceAll("\\D", "");
 
         try {
-            if (!verificarTelefoneJaInserido(telefone)) throw new Exception("Contato não encontrado: Telefone inválido");
+            if (!verificarTelefoneJaInserido(telefone)) System.out.println(Cores.RED.colorir("\n Contato não encontrado: Telefone inválido"));
 
             else {
-                if (novoNome.isEmpty() && novoTelefone.isEmpty() && novoEmail.isEmpty()) throw new Exception("Contato não foi editado: Nenhum novo dado foi passado.");
+                if (novoNome.isEmpty() && novoTelefone.isEmpty() && novoEmail.isEmpty()) System.out.println(Cores.YELLOW.colorir("\n Contato não foi editado: Nenhum novo dado foi passado."));
 
                 if (!novoNome.isEmpty()) listaDeContato.get(getIdContato(telefone)).setNome(novoNome);
 
@@ -40,7 +43,7 @@ public class Agenda {
 
                 if (!novoTelefone.isEmpty()) {
                     novoTelefone = novoTelefone.replaceAll("\\D", "");
-                    if (Utils.verificarTelefoneValido(telefone)) listaDeContato.get(getIdContato(telefone)).setTelefone(novoTelefone);
+                    if (verificarTelefoneValido(telefone)) listaDeContato.get(getIdContato(telefone)).setTelefone(novoTelefone);
                 }
             }
 
@@ -52,7 +55,7 @@ public class Agenda {
     public String listarContatos() {
         StringBuilder builder = new StringBuilder();
         try {
-            if (listaDeContato.isEmpty()) throw new Exception("Sem contatos na lista.");
+            if (listaDeContato.isEmpty()) System.out.println(Cores.RED.colorir("\n Não há contatos a exibir."));
             else {
                 int maxIdLength = "Id".length();
                 int maxNomeLength = "Nome".length();
@@ -89,7 +92,7 @@ public class Agenda {
                             contato.getId(), contato.getNome(), telefoneFormatado, contato.getEmail()
                     )).append("\n");
                 }
-
+                builder.append(linha).append("\n");
             }
         } catch (Exception e) {
             return (e.getMessage());
@@ -108,22 +111,29 @@ public class Agenda {
         return id;
     }
 
-    public String detalharContato(int id) {
+    public String detalharContato(String telefone) {
+        if (listaDeContato.isEmpty()) return (Cores.RED.colorir("\n Não há contatos a exibir."));
+        if (verificarTelefoneValido(telefone)) return (Cores.RED.colorir("\n Não há contatos a exibir."));
         try {
-            if (id < 0 || id >= listaDeContato.size()) throw new Exception("Contato não encontrado");
+            Contato contatoADetalhar = null;
+            for (Contato contato:listaDeContato) {
+                if (contato.getTelefone().equals(telefone)) {
+                    contatoADetalhar = contato;
+                }
+            }
+            if (contatoADetalhar == null) return (Cores.RED.colorir("\n Contato não encontrado"));
 
             else {
-                Contato contato = listaDeContato.get(id);
                 int maxIdLength = "Id".length();
                 int maxNomeLength = "Nome".length();
                 int maxTelefoneLength = "Telefone".length();
                 int maxEmailLength = "Email".length();
 
-                String telefoneFormatado = formatarTelefone(contato.getTelefone());
-                maxIdLength = Math.max(maxIdLength, String.valueOf(contato.getId()).length());
-                maxNomeLength = Math.max(maxNomeLength, contato.getNome().length());
+                String telefoneFormatado = formatarTelefone(contatoADetalhar.getTelefone());
+                maxIdLength = Math.max(maxIdLength, String.valueOf(contatoADetalhar.getId()).length());
+                maxNomeLength = Math.max(maxNomeLength, contatoADetalhar.getNome().length());
                 maxTelefoneLength = Math.max(maxTelefoneLength, telefoneFormatado.length());
-                maxEmailLength = Math.max(maxEmailLength, contato.getEmail().length());
+                maxEmailLength = Math.max(maxEmailLength, contatoADetalhar.getEmail().length());
 
                 String header = String.format(
                         "| %" + maxIdLength + "s | %" + maxNomeLength + "s | %" + maxTelefoneLength + "s | %" + maxEmailLength + "s |",
@@ -142,7 +152,7 @@ public class Agenda {
                         linha + "\n" +
                         String.format(
                                 "| %" + maxIdLength + "d | %" + maxNomeLength + "s | %" + maxTelefoneLength + "s | %" + maxEmailLength + "s |",
-                                contato.getId(), contato.getNome(), telefoneFormatado, contato.getEmail()
+                                contatoADetalhar.getId(), contatoADetalhar.getNome(), telefoneFormatado, contatoADetalhar.getEmail()
                         ) +
                         "\n" +
                         linha;

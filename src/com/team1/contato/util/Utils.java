@@ -2,10 +2,6 @@ package com.team1.contato.util;
 
 public class Utils {
     public static boolean verificarTelefoneValido(String telefone) {
-        return (verificarTamanhoTelefoneValido(telefone));
-    }
-
-    public static boolean verificarTamanhoTelefoneValido(String telefone) {
         return (telefone.length() == 11);
     }
 

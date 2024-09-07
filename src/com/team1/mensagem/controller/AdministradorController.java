@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdministradorController {
-    private static List<Administrador> administradores = new ArrayList<>();
+    private static final List<Administrador> administradores = new ArrayList<>();
 
     public static void cadastrarAdministrador(String nome, String telefone, String email, String senha) {
         Administrador administrador = new Administrador(nome, telefone, email, senha);
