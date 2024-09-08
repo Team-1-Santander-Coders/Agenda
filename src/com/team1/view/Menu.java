@@ -122,8 +122,8 @@ public class Menu {
         System.out.print("\n Digite o email: ");
         String email = scanner.nextLine();
 
-        Contato contato = Contato.getContatoPeloEmail(email);
 
+        Contato contato = Contato.getContatoPeloEmail(email);
 
         if (contato == null) {
             System.out.println(Cores.RED.colorir("\n Email não está cadastrado na agenda."));
@@ -152,17 +152,21 @@ public class Menu {
             return;
         }
 
-        System.out.print(Cores.CYAN.colorir("\n Este usuário será um administrador? (Sim (S) / Não (N)): "));
-        String resposta = scanner.nextLine().toUpperCase();
+        if (Utils.validarCadastroJaInserido(email))
+            System.out.println(Cores.RED.colorir("\n Novo cadastro não realizado. Já existe um usuário cadastrado com esse email"));
+        else {
+            System.out.print(Cores.CYAN.colorir("\n Este usuário será um administrador? (Sim (S) / Não (N)): "));
+            String resposta = scanner.nextLine().toUpperCase();
 
-        if (resposta.equals("S") || resposta.equals("SIM")) {
-            AdministradorController.cadastrarAdministrador(nome, telefone, email, senha);
-            System.out.println(Cores.GREEN.colorir("\n Administrador cadastrado com sucesso!"));
-        } else if (resposta.equals("N") || resposta.equals("NAO") || resposta.equals("NÃO")){
-            UsuarioController.cadastrarUsuario(nome, telefone, email, senha);
-            System.out.println(Cores.GREEN.colorir("\n Usuário cadastrado com sucesso!"));
-        } else {
-            System.out.println(Cores.RED.colorir("\n Escolha uma opção válida."));
+            if (resposta.equals("S") || resposta.equals("SIM")) {
+                AdministradorController.cadastrarAdministrador(nome, telefone, email, senha);
+                System.out.println(Cores.GREEN.colorir("\n Administrador cadastrado com sucesso!"));
+            } else if (resposta.equals("N") || resposta.equals("NAO") || resposta.equals("NÃO")) {
+                UsuarioController.cadastrarUsuario(nome, telefone, email, senha);
+                System.out.println(Cores.GREEN.colorir("\n Usuário cadastrado com sucesso!"));
+            } else {
+                System.out.println(Cores.RED.colorir("\n Escolha uma opção válida."));
+            }
         }
     }
 
@@ -232,13 +236,19 @@ public class Menu {
         if (usuarioLogado != null || administradorLogado != null) {
             System.out.print("\n Digite o email do destinatário: ");
             String emailDestinatario = scanner.nextLine();
-            Usuario destinatario = UsuarioController.buscarUsuarioPorEmail(emailDestinatario);
+            Usuario destinatario = null;
+            if(UsuarioController.buscarUsuarioPorEmail(emailDestinatario) != null){
+                destinatario = UsuarioController.buscarUsuarioPorEmail(emailDestinatario);
+            } else if(AdministradorController.buscarAdministradorPorEmail(emailDestinatario) != null) {
+                destinatario = AdministradorController.buscarAdministradorPorEmail(emailDestinatario);
+            }
 
             if (destinatario != null) {
                 System.out.print("\n Digite a mensagem: ");
                 String conteudo = scanner.nextLine();
                 if (usuarioLogado != null) {
                     usuarioLogado.enviarMensagem(destinatario, conteudo);
+
                 } else if (administradorLogado != null) {
                     administradorLogado.enviarMensagem(destinatario, conteudo);
                 }

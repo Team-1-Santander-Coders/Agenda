@@ -113,7 +113,7 @@ public class Agenda {
 
     public String detalharContato(String telefone) {
         if (listaDeContato.isEmpty()) return (Cores.RED.colorir("\n Não há contatos a exibir."));
-        if (verificarTelefoneValido(telefone)) return (Cores.RED.colorir("\n Não há contatos a exibir."));
+        if (!verificarTelefoneValido(telefone)) return (Cores.RED.colorir("\n Não há contatos a exibir."));
         try {
             Contato contatoADetalhar = null;
             for (Contato contato:listaDeContato) {

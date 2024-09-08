@@ -30,4 +30,8 @@ public class UsuarioController {
         }
         return null;
     }
+
+    public static List<Usuario> getListaUsuarios(){
+        return usuarios;
+    }
 }

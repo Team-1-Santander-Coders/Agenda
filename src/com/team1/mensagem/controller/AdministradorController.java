@@ -21,4 +21,18 @@ public class AdministradorController {
         }
         return null;
     }
+
+    public static Administrador buscarAdministradorPorEmail(String email){
+
+        for(Administrador administrador : administradores){
+            if(administrador.getEmail().equals(email)){
+                return administrador;
+            }
+        }
+        return null;
+    }
+
+    public static List<Administrador> getListaAdministradores(){
+        return administradores;
+    }
 }

@@ -29,6 +29,10 @@ public class Contato {
         return null;
     }
 
+    public static List<Contato> getListaContatos() {
+        return listaContatos;
+    }
+
     public int getId() { return id; }
 
     public String getNome() { return nome; }
