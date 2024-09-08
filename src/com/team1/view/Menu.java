@@ -121,8 +121,6 @@ public class Menu {
     private void cadastrarUsuario() {
         System.out.print("\n Digite o email: ");
         String email = scanner.nextLine();
-        System.out.print(" Digite a senha (deve conter no mínimo 8 caracteres): ");
-        String senha = scanner.nextLine();
 
         Contato contato = Contato.getContatoPeloEmail(email);
 
@@ -131,6 +129,19 @@ public class Menu {
             System.out.println(Cores.RED.colorir("\n Email não está cadastrado na agenda."));
             return;
         }
+
+        System.out.print(" Digite a senha (deve conter no mínimo 8 caracteres): ");
+        String senha = scanner.nextLine();
+
+        System.out.print(" Confirme a senha: ");
+        String confirmacaoSenha = scanner.nextLine();
+
+        if (!senha.equals(confirmacaoSenha)) {
+            System.out.println(Cores.RED.colorir("\n Confirmação de senha não confere. "));
+            return;
+        }
+
+
 
         String nome = contato.getEmail();
         String telefone = contato.getTelefone();
