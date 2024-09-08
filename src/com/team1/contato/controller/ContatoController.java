@@ -18,7 +18,7 @@ public class ContatoController {
                 System.out.println(Cores.RED.colorir("\n Contato não adicionado: Telefone inválido ou Telefone já adicionado à agenda."));
                 return null;
             } else if (!Utils.verificarEmailValido(email)) {
-                System.out.println(Cores.RED.colorir("\n Contato não adicionado: Email inválido"));
+                System.out.println(Cores.RED.colorir("\n Contato não adicionado: Email inválido ou já cadastrado"));
                 return null;
             } else {
                 Contato contato = new Contato(nome, telefone, email);

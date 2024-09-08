@@ -7,6 +7,7 @@ import com.team1.resources.Cores;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.team1.contato.util.Utils.verificarTelefoneCadastrado;
 import static com.team1.contato.util.Utils.verificarTelefoneValido;
 
 public class Agenda {
@@ -113,7 +114,8 @@ public class Agenda {
 
     public String detalharContato(String telefone) {
         if (listaDeContato.isEmpty()) return (Cores.RED.colorir("\n Não há contatos a exibir."));
-        if (!verificarTelefoneValido(telefone)) return (Cores.RED.colorir("\n Não há contatos a exibir."));
+        if (!verificarTelefoneCadastrado(telefone)) return (Cores.RED.colorir("\n Não há contatos a exibir."));
+
         try {
             Contato contatoADetalhar = null;
             for (Contato contato:listaDeContato) {
