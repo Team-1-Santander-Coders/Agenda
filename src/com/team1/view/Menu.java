@@ -100,8 +100,8 @@ public class Menu {
         System.out.println(" | 3 - Editar contato               | ");
         System.out.println(" | 4 - Remover contato              | ");
         System.out.println(" | 5 - Listar contatos              | ");
-        System.out.println(" | 6 - Acessar Email                | ");
-        System.out.println(" | 7 - Cadastrar Usuário            | ");
+        System.out.println(" | 6 - Acessar email                | ");
+        System.out.println(" | 7 - Cadastrar usuário            | ");
         if (usuarioLogado == null && administradorLogado == null) {
             System.out.println(" | 8 - Sair                         | ");
         } else {
