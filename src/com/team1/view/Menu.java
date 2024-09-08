@@ -121,7 +121,7 @@ public class Menu {
     private void cadastrarUsuario() {
         System.out.print("\n Digite o email: ");
         String email = scanner.nextLine();
-        System.out.print(" Digite a senha: ");
+        System.out.print(" Digite a senha (deve conter no mínimo 8 caracteres): ");
         String senha = scanner.nextLine();
 
         Contato contato = Contato.getContatoPeloEmail(email);
