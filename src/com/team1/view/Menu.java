@@ -122,7 +122,6 @@ public class Menu {
         System.out.print("\n Digite o email: ");
         String email = scanner.nextLine();
 
-
         Contato contato = Contato.getContatoPeloEmail(email);
 
         if (contato == null) {
@@ -142,8 +141,7 @@ public class Menu {
         }
 
 
-
-        String nome = contato.getEmail();
+        String nome = contato.getNome();
         String telefone = contato.getTelefone();
 
 
