@@ -5,7 +5,7 @@ import com.team1.contato.model.Contato;
 public class Utils {
     public static boolean verificarTelefoneValido(String telefone) {
         boolean telefoneEstaValido = true;
-        if(telefone.length() == 11) {
+        if(telefone.length() == 11 || telefone.length() == 10)  {
             if(verificarTelefoneCadastrado(telefone)) telefoneEstaValido = false;
         } else telefoneEstaValido = false;
         return telefoneEstaValido;

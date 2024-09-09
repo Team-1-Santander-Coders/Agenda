@@ -109,9 +109,14 @@ public class Menu {
             System.out.println(" | 9 - Ver meus emails              | ");
             if (administradorLogado != null) {
                 System.out.println(" | 10 - Ver emails de outro usuário | ");
+                System.out.println(" | 11 - Logout                      | ");
+                System.out.println(" | 12 - Sair                        | ");
             }
-            System.out.println(" | 11 - Trocar de conta             | ");
-            System.out.println(" | 12 - Sair                        | ");
+            if (usuarioLogado != null) {
+                System.out.println(" | 10 - Logout                      | ");
+                System.out.println(" | 11 - Sair                        | ");
+            }
+
         }
         System.out.println(" |----------------------------------| ");
         System.out.print("\n Escolha uma opção: ");
